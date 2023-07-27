@@ -14,7 +14,7 @@
     const level = [...pmValueColors].reverse().find(level => pmValue >= level.min)!;
     const guidelines = airQualityGuidelines[pmValueColors.indexOf(level)];
     const style = {
-      backgroundColor: transparentize(level.color, .15),
+      backgroundColor: transparentize(level.color, .05),
       color: readableColor(level.color),
       border: `4px solid ${ level.color }`
     };
@@ -78,9 +78,11 @@
         position: absolute;
         top: 8px;
         left: 89%;
+        cursor: pointer;
       }
 
       .guidelines {
+        padding: 0 .1rem;
         display: flex;
         flex-direction: column;
         gap: 1rem;
