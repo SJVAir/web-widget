@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import { computed, onMounted, toRefs, ref, watch } from "vue";
   import { Gauge } from "gaugeJS";
+  import sjvairLogo from "@/assets/sjvair.svg";
   import { AirQualityGuidelinesVue } from "@/AirQualityGuidelines";
   import { Colors } from "@/Utils";
   import type { GaugeOptions } from "gaugeJS";
@@ -11,6 +12,7 @@
   }>();
 
   const { monitor } = toRefs(props);
+  const monitorLink = `https://www.sjvair.com/monitor/${ monitor.value.id }`;
 
   let gauge: any;
   const canvasTarget = ref<HTMLCanvasElement | null>(null);
@@ -133,6 +135,12 @@
     <div class="guidelines-container">
       <AirQualityGuidelinesVue :monitor="monitor"/>
     </div>
+    <div class="powered-by">
+      Powered by 
+      <a :href="monitorLink" target="_blank">
+        <img :src="sjvairLogo" alt="SJVAir.com">
+      </a>
+    </div>
   </div>
 </template>
 
@@ -227,7 +235,18 @@
       }
     }
     .guidelines-container {
-      margin-top: 1rem;
+      margin: 1.5rem 0 .5rem 0;
+    }
+    .powered-by {
+      text-align: right;
+      width: 100%;
+      padding: .2rem .3rem .2rem 0;
+      font-size: .8rem;
+
+      img {
+        vertical-align: middle;
+        height: .8rem;
+      }
     }
   }
 </style>
