@@ -1,17 +1,15 @@
 {
-  "name": "@SJVAir/web-widget",
+  "name": "@sjvair/web-widget",
   "description": "SJVAir's monitor widget for the web!",
   "version": "1.0.0",
   "type": "module",
   "files": [
     "dist"
   ],
-  "publishConfig": {
-    "@SJVAir:registry": "https://npm.pkg.github.com"
-  },
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
+    "prepublishOnly": "npm run build",
     "preview": "vite preview",
     "test": "exit 0"
   },
