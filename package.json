@@ -1,7 +1,7 @@
 {
   "name": "@sjvair/web-widget",
   "description": "SJVAir's monitor widget for the web!",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "type": "module",
   "files": [
     "dist"
