@@ -5,6 +5,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      VITE_PROD_URL: ${{ env.VITE_PROD_URL }}
     steps:
       - uses: actions/checkout@v3
       # Setup .npmrc file to publish to npm
