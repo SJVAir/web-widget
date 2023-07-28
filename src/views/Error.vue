@@ -9,4 +9,7 @@
 </template>
 
 <style scoped lang="scss">
+  h1 {
+    font-size: 1rem;
+  }
 </style>
