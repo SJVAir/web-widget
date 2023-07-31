@@ -52,7 +52,6 @@
       background-color: lightsteelblue;
       border: none;
       cursor: pointer;
-      padding: .5rem;
     }
     .modal-container {
       position: absolute;
