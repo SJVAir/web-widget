@@ -1,7 +1,6 @@
 <script setup lang="ts">
   import { computed, ref } from "vue";
   import { readableColor, transparentize } from "color2k";
-  import closeIcon from "@/assets/close-circle-svgrepo-com.svg";
   import { pmValueColors } from "@/Utils";
   import { altAirQualityGuidelines as airQualityGuidelines } from "./AirQualityGuidelines";
   import type { MonitorData } from "@/Monitors";
