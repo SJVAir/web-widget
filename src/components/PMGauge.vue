@@ -151,7 +151,6 @@
     align-items: center;
     text-align: center;
     width: var(--width);
-    height: var(--height);
     margin: 0 auto;
     position: relative;
     -webkit-backdrop-filter: blur(9.9px);
@@ -160,6 +159,7 @@
     border-radius: var(--border-radius);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.3);
+    overflow: hidden;
 
     * {
       flex-shrink: 0;
@@ -240,6 +240,7 @@
     .powered-by {
       --font-size: .7rem;
       font-size: var(--font-size);
+      margin-bottom: .5rem;
 
       img {
         vertical-align: middle;
