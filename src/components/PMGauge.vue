@@ -170,7 +170,7 @@
       padding: .5rem .5rem 0 .5rem;
       font-size: 1rem;
       color: #FFF;
-      text-shadow: 2px 2px 5px #000;
+      text-shadow: 1px 2px 4px #333;
     }
 
     .pmgauge-container {
