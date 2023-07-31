@@ -33,7 +33,9 @@
   <div class="air-quality-guidelines">
     <button class="modal-trigger" @click="openModal()">Activity Guidelines</button>
     <div class="modal-container" :class="{ hidden: !modalOpen}" :style="template.style">
-      <img :src="closeIcon" alt="close" @click="closeModal()">
+      <span class="close-btn material-symbols-outlined" @click="closeModal()">
+        cancel
+      </span>
       <div class="guidelines">
         <p v-for="(group, index) in template.guidelines" :key="index">
           <b>{{ group.title }}:</b> <span v-for="label in group.labels">{{ label }}</span>
@@ -44,14 +46,24 @@
 </template>
 
 <style scoped lang="scss">
+  @use "sass:color";
+
   .air-quality-guidelines {
     top: 0;
     left: 0;
 
     .modal-trigger {
-      background-color: lightsteelblue;
+      background-color: var(--light-blue);
+      color: white;
+      text-shadow: 1px 2px 4px black;
       border: none;
       cursor: pointer;
+      padding: .5rem;
+      border-radius: 4px;
+
+      &:hover {
+        background-color: color.adjust(#1fb9ef, $lightness: -5%);;
+      }
     }
     .modal-container {
       position: absolute;
@@ -72,12 +84,20 @@
         top: 350px;
       }
 
-      img {
-        width: 20px;
+      .close-btn {
+        text-align: center;
         position: absolute;
-        top: 8px;
-        left: 89%;
+        top: 4px;
+        left: 87%;
         cursor: pointer;
+
+        .material-symbols-outlined {
+          font-variation-settings:
+          'FILL' 0,
+          'wght' 200,
+          'GRAD' 0,
+          'opsz' 48
+        }
       }
 
       .guidelines {
