@@ -2,7 +2,7 @@ import type { MonitorData } from "./index.d";
 
 export const getUrl = (endpoint: string): string => {
   const rootURL = (import.meta.env.PROD)
-    ? new URL(import.meta.url).origin
+    ? window.location.origin
     : import.meta.env.VITE_DEV_URL;
 
     return `${ rootURL }/api/1.0/${ endpoint }`;
