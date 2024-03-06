@@ -10,7 +10,7 @@ export const getUrl = (endpoint: string): string => {
 
 const errmsg = (msg: string) => `Unable to fetch monitor: ${ msg }`;
 
-export async function fetchMonitorById(id?: string): Promise<MonitorData> {
+export async function fetchMonitorById(id?: string): Promise<MonitorData | undefined> {
   if (!id) {
     return Promise.reject(errmsg("No monitor ID provided"));
   }
