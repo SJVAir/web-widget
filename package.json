@@ -15,15 +15,18 @@
   },
   "devDependencies": {
     "@types/gaugeJS": "npm:@types/gaugejs@^1.3.5",
-    "@types/node": "^20.11.25",
-    "@vitejs/plugin-vue": "^5.0.4",
+    "@types/node": "^24.3.0",
+    "@vitejs/plugin-vue": "^6.0.1",
     "color2k": "^2.0.3",
-    "gaugeJS": "^1.3.8",
-    "sass": "^1.71.1",
-    "typescript": "^5.4.2",
-    "vite": "^5.1.5",
-    "vue": "^3.4.21",
-    "vue-router": "^4.3.0",
-    "vue-tsc": "^2.0.5"
+    "gaugeJS": "^1.3.9",
+    "sass": "^1.90.0",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.3",
+    "vue": "^3.5.20",
+    "vue-router": "^4.5.1",
+    "vue-tsc": "^3.0.6"
+  },
+  "dependencies": {
+    "@sjvair/sdk": "npm:@jsr/sjvair__sdk@^2.0.0-alpha.20"
   }
 }
