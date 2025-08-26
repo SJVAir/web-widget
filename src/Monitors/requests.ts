@@ -6,6 +6,6 @@ const origin = (import.meta.env.PROD)
 
 setOrigin(origin);
 
-export async function getMonitor(monitorId: string): Promise<MonitorDetails | undefined> {
-  return await getMonitorDetails(monitorId)
+export async function getMonitor(monitorId: string): Promise<MonitorDetails> {
+  return await getMonitorDetails(monitorId);
 }
