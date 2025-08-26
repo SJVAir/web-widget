@@ -23,11 +23,11 @@
     "typescript": "^5.9.2",
     "vite": "^7.1.3",
     "vue": "^3.5.20",
-    "vue-router": "^4.5.1",
     "vue-tsc": "^3.0.6"
   },
   "dependencies": {
     "@sjvair/sdk": "npm:@jsr/sjvair__sdk@^2.0.0-alpha.20",
-    "@tstk/decorators": "npm:@jsr/tstk__decorators@^1.0.4"
+    "@tstk/decorators": "npm:@jsr/tstk__decorators@^1.0.4",
+    "@tstk/utils": "npm:@jsr/tstk__utils@^1.1.1"
   }
 }
