@@ -27,6 +27,7 @@
     "vue-tsc": "^3.0.6"
   },
   "dependencies": {
-    "@sjvair/sdk": "npm:@jsr/sjvair__sdk@^2.0.0-alpha.20"
+    "@sjvair/sdk": "npm:@jsr/sjvair__sdk@^2.0.0-alpha.20",
+    "@tstk/decorators": "npm:@jsr/tstk__decorators@^1.0.4"
   }
 }
