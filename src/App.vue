@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import { RouterView } from "vue-router";
+import { ViewController } from "./views/view-controller";
+
+const viewCtl = new ViewController();
+
 </script>
 
 <template>
   <Suspense>
-    <router-view></router-view>
+    <component :is="viewCtl.currentView.value"></component>
     <template #fallback>
       <div></div>
     </template>
