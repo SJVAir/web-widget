@@ -1,5 +1,6 @@
 {
-  "name": "widget-svelte",
+  "name": "@sjvair/web-widget",
+  "description": "The Official Web Widget for SJVAir.com",
   "version": "2.0.0",
   "type": "module",
   "scripts": {
