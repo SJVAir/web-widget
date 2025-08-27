@@ -1,0 +1,21 @@
+:root {
+  --height: 325px;
+  --width: 225px;
+  --border-radius: 16px;
+  --light-blue: #1fb9ef;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: var(--width);
+  height: var(--height);
+  background-color: transparent;
+  overflow: hidden;
+  padding: 2rem;
+  font-family: Verdana, sans-serif;
+}

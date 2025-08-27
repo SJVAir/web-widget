@@ -13,11 +13,7 @@
       .reverse()
       .find((level) => pmValue >= level.min)!;
     const guidelines = airQualityGuidelines[pmValueColors.indexOf(level)];
-    const style = `
-    backgroundColor: ${transparentize(level.color, 0.05)},
-    color: ${readableColor(level.color)},
-    border: 4px solid ${level.color}
-  `;
+    const style = `background-color: ${transparentize(level.color, 0.05)}; color: ${readableColor(level.color)}; border: 4px solid ${level.color};`;
 
     return { level, guidelines, style };
   });
@@ -30,35 +26,27 @@
   }
 </script>
 
-<template>
-  <div class="air-quality-guidelines">
-    <button class="modal-trigger" onclick={openModal}
-      >Activity Guidelines</button
-    >
-    <div
-      class="modal-container {modalOpen ? 'hidden' : ''}"
-      style={template.style}
-    >
-      <span
-        class="close-btn material-symbols-outlined"
-        role="button"
-        onclick={closeModal}
-      >
-        cancel
-      </span>
-      <div class="guidelines">
-        {#each template.guidelines as group, index (index)}
-          <p>
-            <b>{group.title}:</b>
-            {#each group.labels as label}
-              <span>{label}</span>
-            {/each}
-          </p>
-        {/each}
-      </div>
+<div class="air-quality-guidelines">
+  <button class="modal-trigger" onclick={openModal}>Activity Guidelines</button>
+  <div
+    class={["modal-container", { hidden: !modalOpen }]}
+    style={template.style}
+  >
+    <button class="close-btn material-symbols-outlined" onclick={closeModal}>
+      cancel
+    </button>
+    <div class="guidelines">
+      {#each template.guidelines as group, index (index)}
+        <p>
+          <b>{group.title}:</b>
+          {#each group.labels as label}
+            <span>{label}</span>
+          {/each}
+        </p>
+      {/each}
     </div>
   </div>
-</template>
+</div>
 
 <style lang="scss">
   @use "sass:color";
@@ -101,13 +89,20 @@
       }
 
       .close-btn {
-        text-align: center;
-        position: absolute;
-        top: 4px;
-        left: 87%;
+        background: none;
+        border: none;
+        box-shadow: none;
+        color: inherit;
         cursor: pointer;
+        display: inline;
+        left: 87%;
+        padding: 0;
+        outline: inherit;
+        position: absolute;
+        text-align: center;
+        top: 4px;
 
-        .material-symbols-outlined {
+        &.material-symbols-outlined {
           font-variation-settings:
             "FILL" 0,
             "wght" 200,

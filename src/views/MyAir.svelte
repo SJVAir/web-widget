@@ -10,33 +10,16 @@
   onDestroy(() => widgetCtl.refreshInterval.stop());
 </script>
 
-<template>
-  <p>MYAir</p>
-  {#if widgetCtl.monitor}
-    <div class="page-content">
-      <div class="pmgauge-component">
-        <PMGauge monitor={widgetCtl.monitor} />
-      </div>
+{#if widgetCtl.monitor}
+  <div class="page-content">
+    <div class="pmgauge-component">
+      <PMGauge monitor={widgetCtl.monitor} />
     </div>
-  {/if}
-</template>
+  </div>
+{/if}
 
-<style scoped lang="scss">
+<style lang="scss">
   .page-content {
     user-select: none;
-
-    .pmgauge-component {
-      strong {
-        font-size: 20px;
-        line-height: 26px;
-      }
-    }
-
-    .forecast-component,
-    .guidelines-component {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
   }
 </style>

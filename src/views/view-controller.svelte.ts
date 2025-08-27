@@ -1,6 +1,7 @@
 import { Singleton } from "@tstk/decorators";
 import MyAirVue from "./MyAir.svelte";
 import ErrorVue from "./Error.svelte";
+import { appErrors } from "../error-service.svelte";
 
 type Views = typeof MyAirVue | typeof ErrorVue;
 
@@ -12,7 +13,8 @@ export class ViewController {
     this.currentView = MyAirVue;
   }
 
-  gotoError(): void {
+  gotoError(error: string): void {
+    appErrors.push(error);
     this.currentView = ErrorVue;
   }
 }

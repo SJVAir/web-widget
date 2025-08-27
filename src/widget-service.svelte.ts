@@ -12,22 +12,22 @@ export class WidgetController {
   private monitorId?: string = window.location.pathname.split("/").pop();
 
   async updateMonitor() {
-    console.log("updating")
     const viewCtl = new ViewController();
     if (!this.monitorId) {
-      console.log("no monitor id", window.location.pathname.split("/"))
-      return viewCtl.gotoError();
+      return viewCtl.gotoError("No Monitor ID was Provided");
     }
 
 
+    // FIXME: this should call catch on error, but it currently does not
     await getMonitor(this.monitorId)
       .then(monitor => {
+        if (!monitor) {
+          viewCtl.gotoError(`Unable to load monitor with ID: ${this.monitorId}`);
+        }
         this.monitor = monitor;
-        console.log("monitor:", $state.snapshot(this.monitor))
       })
       .catch(_ => {
-        console.log("fetch request error", _)
-        viewCtl.gotoError();
+        viewCtl.gotoError(`Unable to load monitor with ID: ${this.monitorId}`);
       });
   }
 }

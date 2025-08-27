@@ -14,7 +14,6 @@
   let gauge: any;
   let canvasTarget: HTMLCanvasElement;
 
-  const name = $derived(monitor.name || "");
   const pmValue = $derived.by(() => {
     if (monitor) {
       const raw = parseInt(monitor.latest.pm25!.value, 10);
@@ -110,38 +109,32 @@
   });
 </script>
 
-<template>
-  <div class="backdrop">
-    <h1 class="monitor-name">
-      {{ name }}
-    </h1>
-    <div class="pmgauge-container">
-      <canvas
-        class="pmgauge"
-        bind:this={canvasTarget}
-        width="100%"
-        height="100%"
-      ></canvas>
-      <div class="pmvalue-box">
-        <p class="pm-value">
-          <span>{pmValue.raw}<span>μg/m<sup>3</sup></span></span>
-          <span>PM 2.5</span>
-        </p>
-      </div>
-    </div>
-    <div class="guidelines-container">
-      <AirQualityGuidelines {monitor} />
-    </div>
-    <div class="powered-by">
-      Powered by
-      <a href={monitorLink} target="_blank">
-        <img src={sjvairLogo} alt="SJVAir.com" />
-      </a>
+<div class="backdrop">
+  <h1 class="monitor-name">
+    {monitor.name}
+  </h1>
+  <div class="pmgauge-container">
+    <canvas class="pmgauge" bind:this={canvasTarget} width="100%" height="100%"
+    ></canvas>
+    <div class="pmvalue-box">
+      <p class="pm-value">
+        <span>{pmValue.raw}<span>μg/m<sup>3</sup></span></span>
+        <span>PM 2.5</span>
+      </p>
     </div>
   </div>
-</template>
+  <div class="guidelines-container">
+    <AirQualityGuidelines {monitor} />
+  </div>
+  <div class="powered-by">
+    Powered by
+    <a href={monitorLink} target="_blank">
+      <img src={sjvairLogo} alt="SJVAir.com" />
+    </a>
+  </div>
+</div>
 
-<style scoped lang="scss">
+<style lang="scss">
   .backdrop {
     display: flex;
     flex-direction: column;
