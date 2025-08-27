@@ -1,6 +1,6 @@
 {
   "name": "@sjvair/web-widget",
-  "description": "The Official Web Widget for SJVAir.com",
+  "description": "SJVAir's monitor widget for the web!",
   "version": "2.0.0",
   "type": "module",
   "scripts": {
