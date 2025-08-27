@@ -4,12 +4,17 @@ import { Interval } from "@tstk/utils";
 import { getMonitor } from "./Monitors";
 import { ViewController } from "./views/view-controller.svelte";
 
+function getMonitorId() {
+  const { href } = window.location;
+  return href.substring(href.lastIndexOf("/") + 1);
+}
+
 @Singleton
 export class WidgetController {
   monitor: MonitorDetails | undefined = $state();
   readonly refreshInterval: Interval = new Interval(() => this.updateMonitor(), 1000 * 60 * 2);
 
-  private monitorId?: string = window.location.pathname.split("/").pop();
+  private monitorId?: string = getMonitorId();
 
   async updateMonitor() {
     const viewCtl = new ViewController();
