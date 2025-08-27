@@ -1,36 +1,32 @@
-<script setup lang="ts">
-  import { computed, onMounted, toRefs, ref, watch } from "vue";
+<script lang="ts">
+  import { onMount } from "svelte";
   import { Gauge } from "gaugeJS";
-  import sjvairLogo from "@/assets/sjvair.svg";
-  import { AirQualityGuidelinesVue } from "@/AirQualityGuidelines";
-  import { Colors } from "@/Utils";
   import type { GaugeOptions } from "gaugeJS";
-  import type { MonitorData } from "@/Monitors";
+  import type { MonitorDetails } from "@sjvair/sdk";
+  import sjvairLogo from "../assets/sjvair.svg";
+  import AirQualityGuidelines from "./air-quality-guidelines/AirQualityGuidelines.svelte";
+  import { Colors } from "../colors";
 
-  const props = defineProps<{
-    monitor: MonitorData,
-  }>();
+  const { monitor }: { monitor: MonitorDetails } = $props();
 
-  const { monitor } = toRefs(props);
-  const monitorLink = `https://www.sjvair.com/monitor/${ monitor.value.id }`;
+  const monitorLink = `https://www.sjvair.com/monitor/${monitor.id}`;
 
   let gauge: any;
-  const canvasTarget = ref<HTMLCanvasElement | null>(null);
-  const name = computed(() => monitor.value.name || "");
-  const pmValue = computed(() => {
+  let canvasTarget: HTMLCanvasElement;
+
+  const pmValue = $derived.by(() => {
     if (monitor) {
-      const raw = parseInt(monitor.value.latest.pm25, 10);
-      const percent = convert(raw)
+      const raw = parseInt(monitor.latest.pm25!.value, 10);
+      const percent = convert(raw);
 
       return {
         percent,
-        raw
+        raw,
       };
-
     } else {
       return {
         percent: 0,
-        raw: 0
+        raw: 0,
       };
     }
   });
@@ -59,9 +55,8 @@
     {
       min: 250.5,
       max: Infinity,
-    }
+    },
   ];
-
 
   const opts: Partial<GaugeOptions> = {
     highDpiSupport: true,
@@ -69,13 +64,13 @@
     radiusScale: 1,
     limitMax: true,
     limitMin: true,
-    angle: -.239, /// The span of the gauge arc
+    angle: -0.239, /// The span of the gauge arc
     lineWidth: 0.1, // The line thickness
     strokeColor: "rgba(130, 130, 130, .5)",
     pointer: {
       length: 0.4, // Relative to gauge radius
       strokeWidth: 0.035, // The thickness
-      color: "#000"
+      color: "#000",
     },
     staticZones: [
       { min: 0, max: 16.66, strokeStyle: Colors.green },
@@ -83,68 +78,63 @@
       { min: 33.34, max: 50, strokeStyle: Colors.orange },
       { min: 50.01, max: 66.66, strokeStyle: Colors.red },
       { min: 66.67, max: 83.33, strokeStyle: Colors.purple },
-      { min: 83.34, max: 100, strokeStyle: Colors.maroon }
-    ]
+      { min: 83.34, max: 100, strokeStyle: Colors.maroon },
+    ],
   };
 
   function convert(pmValue: number) {
-    const lvl = pmLevels.find(lvl => pmValue >= lvl.min && pmValue <= lvl.max)!;
-    const max = (lvl.max > 300) ? 300 : lvl.max;
+    const lvl = pmLevels.find(
+      (lvl) => pmValue >= lvl.min && pmValue <= lvl.max,
+    )!;
+    const max = lvl.max > 300 ? 300 : lvl.max;
     const percentOfLevel = (pmValue - lvl.min) / (max - lvl.min);
-    const modifier = ((100 / pmLevels.length) * (pmLevels.indexOf(lvl)))
+    const modifier = (100 / pmLevels.length) * pmLevels.indexOf(lvl);
 
-    return modifier + (percentOfLevel * (100/ pmLevels.length));
+    return modifier + percentOfLevel * (100 / pmLevels.length);
   }
 
-  watch(
-    () => monitor,
-    (monitor) => {
-      if (monitor && gauge && canvasTarget) {
-        window.requestAnimationFrame(() => gauge.set(pmValue.value.percent));
-      }
-    },
-  );
-
-  onMounted(async () => {
-    const target = canvasTarget.value as unknown as HTMLCanvasElement;
-    window.requestAnimationFrame(() => {
-      gauge = new Gauge(target).setOptions(opts as GaugeOptions); // create sexy gauge!
-      gauge.maxValue = 100; // set max gauge value
-      gauge.setMinValue(0);  // set min value
-      gauge.set(pmValue.value.percent);
-    });
+  $effect(() => {
+    if (monitor && gauge && canvasTarget) {
+      window.requestAnimationFrame(() => gauge.set(pmValue.percent));
+    }
   });
 
-  //onBeforeUnmount(() => stopClock());
+  onMount(async () => {
+    window.requestAnimationFrame(() => {
+      gauge = new Gauge(canvasTarget).setOptions(opts as GaugeOptions); // create sexy gauge!
+      gauge.maxValue = 100; // set max gauge value
+      gauge.setMinValue(0); // set min value
+      gauge.set(pmValue.percent);
+    });
+  });
 </script>
 
-<template>
-  <div class="backdrop">
-    <h1 class="monitor-name">
-      {{ name }}
-    </h1>
-    <div class="pmgauge-container">
-      <canvas class="pmgauge" ref="canvasTarget" width="100%" height="100%" ></canvas>
-      <div class="pmvalue-box">
-        <p class="pm-value">
-          <span>{{ pmValue.raw }}<span>μg/m<sup>3</sup></span></span>
-          <span>PM 2.5</span>
-        </p>
-      </div>
-    </div>
-    <div class="guidelines-container">
-      <AirQualityGuidelinesVue :monitor="monitor"/>
-    </div>
-    <div class="powered-by">
-      Powered by 
-      <a :href="monitorLink" target="_blank">
-        <img :src="sjvairLogo" alt="SJVAir.com">
-      </a>
+<div class="backdrop">
+  <h1 class="monitor-name">
+    {monitor.name}
+  </h1>
+  <div class="pmgauge-container">
+    <canvas class="pmgauge" bind:this={canvasTarget} width="100%" height="100%"
+    ></canvas>
+    <div class="pmvalue-box">
+      <p class="pm-value">
+        <span>{pmValue.raw}<span>μg/m<sup>3</sup></span></span>
+        <span>PM 2.5</span>
+      </p>
     </div>
   </div>
-</template>
+  <div class="guidelines-container">
+    <AirQualityGuidelines {monitor} />
+  </div>
+  <div class="powered-by">
+    Powered by
+    <a href={monitorLink} target="_blank">
+      <img src={sjvairLogo} alt="SJVAir.com" />
+    </a>
+  </div>
+</div>
 
-<style scoped lang="scss">
+<style lang="scss">
   .backdrop {
     display: flex;
     flex-direction: column;
@@ -167,9 +157,9 @@
     }
 
     .monitor-name {
-      padding: .5rem .5rem 0 .5rem;
+      padding: 0.5rem 0.5rem 0 0.5rem;
       font-size: 1rem;
-      color: #FFF;
+      color: #fff;
       text-shadow: 1px 2px 4px #333;
     }
 
@@ -184,6 +174,7 @@
         height: var(--size);
         width: var(--size);
       }
+
       .pmvalue-box {
         --top: calc(var(--height) / 2.58);
         --left: calc(var(--width) / 4.7);
@@ -207,8 +198,8 @@
           flex-direction: column;
           justify-content: center;
           align-items: center;
-          padding-bottom: .2rem;
-          color: #FFF;
+          padding-bottom: 0.2rem;
+          color: #fff;
           position: absolute;
           transform-origin: center;
           transform: rotate(-45deg);
@@ -220,27 +211,29 @@
             &:first-of-type {
               font-size: 1.5rem;
               text-align: center;
-              
+
               span {
-                font-size: .7rem;
+                font-size: 0.7rem;
                 display: inline;
               }
             }
 
             &:last-of-type {
-              font-size: .8rem;
+              font-size: 0.8rem;
             }
           }
         }
       }
     }
+
     .guidelines-container {
-      margin: 1.5rem 0 .5rem 0;
+      margin: 1.5rem 0 0.5rem 0;
     }
+
     .powered-by {
-      --font-size: .7rem;
+      --font-size: 0.7rem;
       font-size: var(--font-size);
-      margin-bottom: .5rem;
+      margin-bottom: 0.5rem;
 
       img {
         vertical-align: middle;
