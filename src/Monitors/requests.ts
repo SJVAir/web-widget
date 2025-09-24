@@ -1,4 +1,5 @@
-import { getMonitorDetails, setOrigin, type MonitorDetails } from "@sjvair/sdk";
+import { getMonitorDetails, type MonitorDetails } from "@sjvair/sdk";
+import { setOrigin } from "@sjvair/sdk/http";
 
 const origin = (import.meta.env.PROD)
   ? window.location.origin

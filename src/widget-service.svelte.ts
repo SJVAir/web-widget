@@ -23,7 +23,6 @@ export class WidgetController {
     }
 
 
-    // FIXME: this should call catch on error, but it currently does not
     await getMonitor(this.monitorId)
       .then(monitor => {
         if (!monitor) {
